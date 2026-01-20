@@ -1,0 +1,46 @@
+version: '3'
+services:
+  cassandra-1:
+    image: cassandra:latest
+    container_name: cassandra-1
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_SEEDS=cassandra-1,cassandra-2
+      - CASSANDRA_CLUSTER_NAME=MyCluster
+      - CASSANDRA_DC=DC1
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - MAX_HEAP_SIZE=256M
+      - HEAP_NEWSIZE=64M
+    networks:
+      - cassandra-net
+
+  cassandra-2:
+    image: cassandra:latest
+    container_name: cassandra-2
+    environment:
+      - CASSANDRA_SEEDS=cassandra-1,cassandra-2
+      - CASSANDRA_CLUSTER_NAME=MyCluster
+      - CASSANDRA_DC=DC1
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - MAX_HEAP_SIZE=256M
+      - HEAP_NEWSIZE=64M
+    networks:
+      - cassandra-net
+
+  cassandra-3:
+    image: cassandra:latest
+    container_name: cassandra-3
+    environment:
+      - CASSANDRA_SEEDS=cassandra-1,cassandra-2
+      - CASSANDRA_CLUSTER_NAME=MyCluster
+      - CASSANDRA_DC=DC1
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - MAX_HEAP_SIZE=256M
+      - HEAP_NEWSIZE=64M
+    networks:
+      - cassandra-net
+
+networks:
+  cassandra-net:
+    driver: bridge
